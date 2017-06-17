@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+	<title>Search Page Dashboard</title>
+
+	<!-- Latest compiled and minified Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	 crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	 crossorigin="anonymous">
+
+	<!-- Latest compiled and minified Bootstrap JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	 crossorigin="anonymous"></script>
+</head>
+
+<body ng-controller="appCtrl" ng-init="locationSearch()">
+
+	<!--Loading of scripts-->
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+	<script type="text/javascript" src="lib/angular.min.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+
+
+	</script>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8"></div>
+
+			<div class="col-md-4" >
+				<form class="form-inline">
+					<label for="username"> Username </label>
+					<input type="text" id="username" class="form-control" ng-model='username' />
+					<button class="btn btn-primary" ng-click="validate()">Login</button>
+				</form>
+			</div>
+		<!--</div>-->
+		<!-- Username greetings section -->
+		<!--<div class="row">-->
+			<div class="co-md-12" >
+				<h3 class="well">Hello!! {{user}}</h3>
+			</div>
+
+		</div>
+		<div class="row">
+			<!-- To search for a location-->
+			<div class="col-md-6">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3> Search for a Location </h3>
+					</div>
+					<div class="panel-body">
+						<h4> <label for=""></label> Location:</h4>
+						<input type="text" id="searchPlaces" placeholder="Enter a location" ng-model="searchPlaces" />
+					</div>
+				</div>
+			</div>
+
+			<!--For Searched Items so far-->
+			<div class="col-md-6">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3> Your Search History </h3>
+					</div>
+					<div class="panel-body">
+						<table class="table">
+							<tr>
+								<th>Place</th>
+								<th>Latitude</th>
+								<th>Longitude</th>
+							</tr>
+
+							<tr ng-repeat="result in searched">
+								<td>{{result.place}} </td>
+								<td>{{result.latitude}} </td>
+								<td>{{result.longitude}} </td>
+							</tr>
+						</table>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+</body>
+
+</html>
