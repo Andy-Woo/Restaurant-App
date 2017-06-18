@@ -4,16 +4,17 @@
 	<div class="col-md-5">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h2> Restaurants Listing </h2>
+				<h3> Restaurants Listing </h3>
 			</div>
-			<div class="panel-body">
+			<div class="panel-body" style="height:800px;overflow:auto;">
 				<div class="panel panel-default" ng-repeat="restaurant in restaurants">
 					<div class="panel-heading">
-						<h3>{{restaurant.name}}</h3>
+						<h4>{{restaurant.name}}</h4>
 						<h5>{{restaurant.address}}</h5>
 						<h5><strong>Cuisine Offered</strong> {{restaurant.cuisine}}
 						</h5>
 						<button class="btn btn-primary" style="float: right;" ng-click="editRestaurant(restaurant._id);">Edit</button>
+						&nbsp; &nbsp;
 						<button class="btn btn-danger" style="float: right;" ng-click="deleteRestaurant(restaurant._id)">Delete</button>
 					</div>
 					<div class="panel-body">
@@ -41,32 +42,38 @@
 	<div class="col-md-7">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h2> Add Restaurant </h2>
+				<h3> Add Restaurant </h3>
 			</div>
 			<div class="panel-body">
 				<table class="table table-bordered">
 					<tr>
-						<td>
+						<th class="no-border">
 
-							Name:<input type="text" ng-model="restaurantInfo.name" /></td>
-						<td> Location:<input type="text" ng-model="restaurantInfo.address" /></td>
-						<td>Cuisine Offered:<input type="text" ng-model="restaurantInfo.cuisine" /></td>
+							Name:<input type="text" ng-model="restaurantInfo.name" />
+						</th>
+						<th class="no-border">
+							Location:<input type="text" ng-model="restaurantInfo.address" />
+						</th>
+						<th class="no-border">Cuisine Offered:<input type="text" ng-model="restaurantInfo.cuisine" />
+						</th>
 					</tr>
 				</table>
 
 				<!-- Add a table to the restaurant section -->
-				<table class="table">
+				<table class="table no-border">
 					<tr>
-						<td>
-							Table Number<input type="text" ng-model="name">
-						</td>
-						<td>
+						<th class="no-border">
+							Table<input type="text" ng-model="name">
+						</th>
+						<th class="no-border">
 							Table Capacity<input type="text" ng-model="capacity">
-						</td>
-						<td><button class="btn btn-primary" ng-click="addTable()">Add Table</button> </td>
+						</th>
+						<th class="no-border">
+							<button class="btn btn-primary btn-small" ng-click="addTable()">Add Table</button>
+						</th>
 					</tr>
 					<tr>
-						<td colspan="2"> Tables Added
+						<td colspan="2"> <b>Tables Added</b>
 							<ul>
 								<li style="list-style: none;">Number Capacity</li>
 								<li ng-repeat="t in tables" style="list-style: none;">{{t.id}} &nbsp; &nbsp; &nbsp; &nbsp; {{t.capacity}}
@@ -91,11 +98,12 @@
 		<!-- Edit Restaurant Section -->
 		<div class="panel panel-success">
 			<div class="panel-heading">
-				<h2>Edit {{particular[0].name}} Restaurant</h2>
-				<h4>Location: {{particular[0].address}}<br/> Cuisine Offered: {{particular[0].cuisine}}
-				</h4>
+				<h3>Edit {{particular[0].name}} Restaurant</h3>
+				<h5>Location: {{particular[0].address}}<br/> 
+				Cuisine Offered: {{particular[0].cuisine}}
+				</h5>
 			</div>
-			<div class="panel-body">
+			<div class="panel-body" style="height: 300px; overflow:auto;">
 				<table class="table ">
 					<tr>
 						<td colspan="2">
@@ -103,14 +111,14 @@
 						</td>
 					</tr>
 					<tr>
-						<th>Table Number</th>
+						<th class="no-border">Table</th>
 						<th>Table Capacity</th>
 					</tr>
 					<tr ng-repeat="table in particular[0].tables">
-						<td>{{table.id}}</td>
-						<td><input type="text" value="{{table.capacity}}" id="{{table.id}}" />
-							<button class="btn btn-warning" ng-click="changeTable(table.id)">Change</button>
-							<button class="btn btn-danger" ng-click="deleteTable(table.id)">Delete</button>
+						<td class="no-border">{{table.id}}</td>
+						<td class="no-border"><input type="text" value="{{table.capacity}}" id="{{table.id}}" />
+							<button class="btn btn-warning" ng-click="changeTable(table.id, $index)">Change</button>
+							<button class="btn btn-danger" ng-click="deleteTable(table.id, $index)">Delete</button>
 						</td>
 					</tr>
 				</table>
@@ -118,16 +126,18 @@
 				<!-- Add a table to the current Restaurant Section-->
 				<table class="table">
 					<tr>
-						<td>
-							Table Number<input type="text" ng-model="nameEdit">
+						<td class="no-border">
+							<b>Table<input type="text" ng-model="nameEdit"></b>
 						</td>
-						<td>
-							Table Capacity<input type="text" ng-model="capacityEdit">
+						<td class="no-border">
+							<b>Table Capacity<input type="text" ng-model="capacityEdit"></b>
 						</td>
-						<td><button class="btn btn-primary" ng-click="addTable('edit')">Add Table</button> </td>
+						<td class="no-border">
+							<button class="btn btn-primary" ng-click="addTable('edit')">Add Table</button> 
+							</td>
 					</tr>
 					<tr>
-						<td colspan="2"> Tables Added
+						<td colspan="2" class="no-border"> <b>Tables Added</b>
 							<ul>
 								<li style="list-style: none;">Number Capacity</li>
 								<li ng-repeat="t in tables" style="list-style: none;">{{t.id}} &nbsp; &nbsp; &nbsp; &nbsp; {{t.capacity}}

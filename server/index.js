@@ -106,6 +106,20 @@ app.put('/review/:id', (req, res) => {
 	});
 })
 
+// update booking
+app.put('/updatebooking/:id', (req, res) => {
+	let id = req.params['id']
+	let data = req.body
+
+	console.log('body: ', data)
+	console.log('Restaurabt Id: ', id)
+
+	MongoClient.connect(url, function (err, db) {
+		query.updateBooking(id, data, res, db, function () {
+			db.close();
+		});
+	});
+})
 
 // listen
 app.listen(3000, function () {

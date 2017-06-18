@@ -40,6 +40,7 @@ var findRestaurants = function (req, res, db, callback) {
 	// res.json(docs)
 }
 
+// add a table in the Restaurant
 let insertDocument = (res, data, db, callback) => {
 	console.log('data from frontend: ', data)
 	db.collection('restaurants').insertOne(data, (err, result) => {
@@ -49,6 +50,7 @@ let insertDocument = (res, data, db, callback) => {
 	})
 }
 
+// remove a restaurant
 let removeRestaurant = function (id, res, db, callback) {
 	db.collection('restaurants').deleteOne(
 		{ "_id": ObjectId(id) },
@@ -60,6 +62,7 @@ let removeRestaurant = function (id, res, db, callback) {
 	);
 };
 
+// update the restaurant after table modify
 let updateRestaurant = function (id, data, res, db, callback) {
 	db.collection('restaurants').updateOne(
 		{ "_id": ObjectId(id) },
@@ -72,7 +75,7 @@ let updateRestaurant = function (id, data, res, db, callback) {
 		});
 };
 
-
+// updates review
 let updateReview = function (id, data, res, db, callback) {
 	db.collection('restaurants').updateOne(
 		{ "_id": ObjectId(id) },
@@ -81,6 +84,19 @@ let updateReview = function (id, data, res, db, callback) {
 
 		}, function (err, results) {
 			res.json('review updated successfully')
+			callback();
+		});
+}
+
+// updates bookings
+let updateBooking = function (id, data, res, db, callback) {
+	db.collection('restaurants').updateOne(
+		{ "_id": ObjectId(id) },
+		{
+			$set: { "bookings": data }
+
+		}, function (err, results) {
+			res.json({"msg": 'booking updated successfully'})
 			callback();
 		});
 }
@@ -94,5 +110,6 @@ module.exports = {
 	removeRestaurant: removeRestaurant,
 	updateRestaurant: updateRestaurant,
 
-	updateReview: updateReview
+	updateReview: updateReview,
+	updateBooking: updateBooking
 }

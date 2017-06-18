@@ -31,7 +31,7 @@ app.controller('restaurantCtrl', ['$scope', '$http', 'restaurantService', functi
 	$scope.saveRestaurant = function (info) {
 
 		// data for a particualar restaurant
-		var data = angular.extend(info, { "tables": $scope.tables }, { "reviews": [{ "name": 'Anonymous', "reviews": "ok" }] }, {"bookings":[{"name": $scope.tables[0]['id'], "date": new Date()}]})
+		var data = angular.extend(info, { "tables": $scope.tables }, { "reviews": [{ "name": 'Anonymous', "reviews": " said: ok" }] }, { "bookings": [{ "name": $scope.tables[0]['id'], "date": new Date() }] })
 
 		console.log('data before add', data)
 
@@ -70,40 +70,30 @@ app.controller('restaurantCtrl', ['$scope', '$http', 'restaurantService', functi
 	$scope.tablesModified = {}
 
 	// change capacity of tables
-	$scope.changeTable = function (id) {
+	$scope.changeTable = function (id, index) {
 		var value = document.getElementById(id).value
+
+		$scope.particular[0].tables[index]['capacity'] = value
 		$scope.tablesModified[id] = { "capacity": value }
 
 	}
 	// delete a table
-	$scope.deleteTable = function (id) {
+	$scope.deleteTable = function (id, index) {
 		var value = document.getElementById(id).value
-		$scope.tablesModified[id] = ''
+		$scope.particular[0].tables.splice(index, 1)
 	}
 
 	// save all the modification to tables so far
-	$scope.saveTable = function (restId) {
-		var tablesUltimate = []
-
-		var keys = Object.keys($scope.tablesModified)
-
-		// for tables which are modified
-		for (var i = 0; i < keys.length; i++) {
-
-			if ($scope.tablesModified[keys[i]] !== '') {
-				tablesUltimate.push({ "id": keys[i], "capacity": $scope.tablesModified[keys[i]]['capacity'] })
-			}
-
-		}
+	$scope.saveTable = function (restaurantId) {		
 
 		// for tables which are added
 		for (var j = 0; j < $scope.tables.length; j++) {
-			tablesUltimate.push($scope.tables[j])
+			$scope.particular[0].tables.push($scope.tables[j])
 		}
-		console.log('rest id', restId)
-		console.log('tables last view: ', tablesUltimate)
 
-		restaurantService.updateRestaurant(restId, tablesUltimate).then(function (success) {
+		console.log('Particualr inside save function after modify', $scope.particular[0])
+
+		restaurantService.updateRestaurant(restaurantId, $scope.particular[0].tables).then(function (success) {
 
 			// call to see the updated data
 			$scope.getAllRestaurants()

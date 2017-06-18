@@ -2,7 +2,7 @@ var app = angular.module('customerModule', ['serviceModule'])
 
 app.controller('customerCtrl', ['$scope', 'customerService', function ($scope, customerService) {
 
-
+	// search Restaurant based on Name/ Location/ Cuisine
 	$scope.search = function () {
 		console.log('search function reached...')
 
@@ -17,6 +17,7 @@ app.controller('customerCtrl', ['$scope', 'customerService', function ($scope, c
 
 		$scope.bookings = []
 
+		// get Reviews/ Bookings for a particular Restaurant
 		$scope.getReview = function (result) {
 			console.log(result)
 			$scope.restaurantId = result._id
@@ -39,13 +40,23 @@ app.controller('customerCtrl', ['$scope', 'customerService', function ($scope, c
 			customerService.sendReview($scope.restaurantId, $scope.reviews)
 		}
 
+		// add a new booking
 		$scope.bookTable = function () {
 			$scope.bookings.push({ "name": $scope.tableName, "date": new Date() })
-			console.log($scope.bookings)
+			console.log('booking is now: ', $scope.bookings)
+
 		}
 
+		// delete an existing booking
 		$scope.cancelBooking = function (index) {
 			$scope.bookings.splice(index, 1)
+			console.log('booking is now: ', $scope.bookings)
+		}
+
+		// upadate bookings after modification
+		$scope.updateBookings = function () {
+			customerService.updateBooking($scope.restaurantId, $scope.bookings)
+			$scope.tableName = ''
 		}
 	}
 }])

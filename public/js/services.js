@@ -1,10 +1,11 @@
 var app = angular.module('serviceModule', [])
 
+// restaurantService
 app.service('restaurantService', ['$http', function ($http) {
 	var baseUrl = 'http://localhost:3000'
 
 
-
+	// list of All Restaurants
 	this.listRestaurants = function (id) {
 		return $http({
 			method: 'GET',
@@ -12,6 +13,7 @@ app.service('restaurantService', ['$http', function ($http) {
 		})
 	}
 
+	// add a New Restaurant
 	this.addRestaurant = function (data) {
 		return $http({
 			method: 'POST',
@@ -19,7 +21,8 @@ app.service('restaurantService', ['$http', function ($http) {
 			data: data
 		})
 	}
-
+	
+	// delete an existing Restaurant
 	this.deleteRestaurant = function (id) {
 		return $http({
 			method: 'DELETE',
@@ -27,6 +30,7 @@ app.service('restaurantService', ['$http', function ($http) {
 		})
 	}
 
+	// update Restaurant with tables modificaion
 	this.updateRestaurant = function (id, data) {
 		return $http({
 			method: 'PUT',
@@ -36,10 +40,11 @@ app.service('restaurantService', ['$http', function ($http) {
 	}
 }])
 
+// customerService
 app.service('customerService', ['$http', function ($http) {
 	var baseUrl = 'http://localhost:3000'
 
-
+	// find restaurants from search
 	this.findRestaurants = function (value) {
 		return $http({
 			method: 'GET',
@@ -47,10 +52,19 @@ app.service('customerService', ['$http', function ($http) {
 
 		})
 	}
+
+	// save reviews
 	this.sendReview = function (id, data) {
 		return $http({
 			method: 'PUT',
 			url: baseUrl + '/review/' + id,
+			data: data
+		})
+	}
+	this.updateBooking = function (id, data) {
+		return $http({
+			method: 'PUT',
+			url: baseUrl + '/updatebooking/' + id,
 			data: data
 		})
 	}
