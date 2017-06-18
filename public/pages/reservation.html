@@ -1,0 +1,109 @@
+<div ng-controller="customerCtrl">
+	<table class="table">
+		<tr>
+			<td>
+				<div class="input-group">
+					<span class="input-group-addon">
+							<i class="glyphicon glyphicon-search"></i>
+							</span>
+
+					<input type="text" ng-model="searchName" class="form-control" my-enter=search() placeholder="Search restaurants by name, location, cuisine"
+					/>
+
+				</div>
+			</td>
+
+		</tr>
+	</table>
+
+	<div class="col-md-6">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h2>Search Results</h2>
+			</div>
+			<div class="panel-body">
+				<table class="table">
+					<tr ng-repeat="result in searchedResults">
+						<td>
+							<h3>{{result.name}}
+								<span> <small> ({{result.address}}) <small></span>
+							</h3>
+							<h6>{{result.cuisine}}</h6>
+							<ul>
+								<li ng-repeat="rev in result.reviews" style="list-style: none;">
+									{{rev.name}} {{rev.reviews}}
+								</li>
+							</ul>
+						</td>
+						<td align="right">
+							<button class="btn btn-primary" ng-click=getReview(result)>Book</button>
+							<button class="btn btn-warning" ng-click=getReview(result)>Review</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- Add Review Section-->
+	<div class="col-md-6">
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<h2>Review {{' for '+ reviewRestaurant}}</h2>
+			</div>
+			<div class="panel-body">
+				<table class="" style="border:0px solid #ccc;">
+					<tr>
+						<td>Name
+							<input type="text" ng-model="reviewerName" /> <br/>
+						</td>
+
+						<td>
+							Review
+							<input type="text" ng-model="review" /> <br/>
+
+						</td>
+						<td>
+							<button class="btn btn-success" ng-click="submitReview()">Submit</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<!-- Booking Section-->
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h2>Booking {{' for '+ reviewRestaurant}}</h2>
+			</div>
+			<div class="panel-body">
+				Current Bookings are
+				<table class="table">
+					<tr>
+						<th>Table name</th>
+						<th>Booking Date</th>
+					</tr>
+					<tr ng-repeat="booking in bookings">
+						<td>{{booking.name}}</td>
+						<td>{{booking.date | date: "dd/MM/y hh:mm:ss a"}}</td>
+						<td><button class="btn btn-danger" ng-click="cancelBooking($index)">Cancel</button></td>
+					</tr>
+				</table>
+				<table class="" style="border:0px solid #ccc;">
+					<tr>
+						<td>Table Name
+							<input type="text" ng-model="tableName" /> <br/>
+						</td>
+
+
+						<td>
+							<button class="btn btn-primary" ng-click="bookTable()">Book</button>
+							
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

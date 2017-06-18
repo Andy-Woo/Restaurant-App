@@ -3,22 +3,14 @@ let express = require('express')
 let app = express()
 let bodyParser = require('body-parser')
 
-var jwt = require('jsonwebtoken')
+var constants = require('./constants')
 
-let constants = require('./constants')
 // db dependencies
-var db = require('mysql-promise')();
-
-db.configure({
-	"host": "localhost",
-	"user": "root",
-	"password": "root123",
-	"database": "student",
-	"multipleStatements": true
-});
+var MongoClient = require('mongodb').MongoClient
+var ObjectId = require('mongodb').ObjectID
+var url = constants.DB_URL
 
 var query = require('./query')
-var users = require('./users.json')
 
 app.use(bodyParser.json())
 app.use(express.static('../public'))
@@ -28,72 +20,94 @@ app.get('/', function (req, res) {
 	res.send('index.html')
 })
 
-// simplified using JSON for users, no password 
-app.get('/find/:user', (req, res) => {
+// find restaurant api
+app.get('/restaurants/:_id?', (req, res) => {
+	console.log(req.params)
 
-	var user = req.params['user'].toLowerCase()
-	var output = (users[user]) ? users[user] : users['user']
-
-	// sign with JWT
-	let token = jwt.sign(output, 'SuPerSkR', { expiresIn: "10m" })
-	res.header({ "token": token })
-	res.json(output)
-})
-
-// store and get data api
-app.post('/store', (req, res) => {
-
-	// set the userId field corresponding to the username
-	let username = req.body['userId'].toLowerCase()
-	
-	// if no user is found a default user will be shown
-	req.body['userId'] = (users[username]) ? users[username]['userId'] : users['user']['userId']
-
-	// send the response
-	query.sendResponse(db, req, res)
-
-})
-
-// middleware to check JWT for every request
-app.use(jwtVerify)
-
-app.get('/findall/:user', (req, res) => {
-	console.log(req.params['user'])
-	var sqlquery = `SELECT place, latitude, longitude FROM searchedData WHERE userId = ${req.params['user']}`
-	console.log('sqlquery is -> ', sqlquery)
-	db.query(sqlquery)
-		.then((data) => {
-			res.json(data[0])
-		}, (err) => {
-			console.log(err)
+	var criteria = (req.params) ? { "_id": ObjectId(req.params['_id']) } : ''
+	console.log(criteria)
+	console.log('restaurants api reached.. ')
+	MongoClient.connect(url, function (err, db) {
+		// assert.equal(null, err);
+		query.findRestaurants(req, res, db, function () {
+			db.close()
 		})
+	})
 })
 
-// function to verify JWT token
-function jwtVerify(req, res, next) {
-
-	if (req.headers['authorization']) {
-		let token = req.headers['authorization'].substr(req.headers['authorization'].indexOf(' ') + 1)
-
-		// verify the token
-		jwt.verify(token, 'SuPerSkR', (err, data) => {
-			if (err) {
-				console.log('err in the JWT ', err)
-
-				// forbidden if token can't be verified
-				res.sendStatus(403)
-			}
-			else {
-				// continue to the routing
-				next()
-			}
+// add restaurant api
+app.post('/addRestaurant', (req, res) => {
+	console.log(req.body)
+	var data = req.body
+	MongoClient.connect(url, function (err, db) {
+		// assert.equal(null, err);
+		query.insertDocument(res, data, db, function () {
+			db.close()
 		})
-	} else {
-		// if no token is provided send 'FORBIDDEN'
-		res.sendStatus(403)
-	}
-}
+	})
+})
 
+// delete restaurant api
+app.delete('/deleterestaurant/:id', (req, res) => {
+	console.log(req.params)
+	var id = req.params['id']
+	MongoClient.connect(url, function (err, db) {
+
+		query.removeRestaurant(id, res, db, function () {
+			db.close();
+		});
+	});
+})
+
+// update restaurant api
+app.put('/updaterestaurant/:id', (req, res) => {
+	console.log('update api reached')
+	console.log('_id:', req.params['id'])
+	console.log('update body', req.body)
+
+	var id = req.params['id']
+	var data = req.body
+	MongoClient.connect(url, function (err, db) {
+		query.updateRestaurant(id, data, res, db, function () {
+			db.close();
+		});
+	});
+})
+
+// search api
+app.get('/search/:value', (req, res) => {
+
+	var searchItem = req.params['value']
+	console.log(searchItem)
+	// res.json('search api reached...')
+	MongoClient.connect(url, function (err, db) {
+		// assert.equal(null, err);
+		query.findRestaurants(req, res, db, function () {
+			db.close()
+		})
+	})
+})
+
+
+// review api
+app.put('/review/:id', (req, res) => {
+	console.log('review api reached.. ')
+
+	let id = req.params['id']
+	let data = req.body
+
+	console.log('body: ', data)
+	console.log('Restaurabt Id: ', id)
+
+	MongoClient.connect(url, function (err, db) {
+		query.updateReview(id, data, res, db, function () {
+			db.close();
+		});
+	});
+})
+
+
+// listen
 app.listen(3000, function () {
 	console.log('Server is running')
 })

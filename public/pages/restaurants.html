@@ -1,0 +1,155 @@
+<div class="row" ng-controller="restaurantCtrl">
+
+	<!-- Show the list of Restaurants Available-->
+	<div class="col-md-5">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h2> Restaurants Listing </h2>
+			</div>
+			<div class="panel-body">
+				<div class="panel panel-default" ng-repeat="restaurant in restaurants">
+					<div class="panel-heading">
+						<h3>{{restaurant.name}}</h3>
+						<h5>{{restaurant.address}}</h5>
+						<h5><strong>Cuisine Offered</strong> {{restaurant.cuisine}}
+						</h5>
+						<button class="btn btn-primary" style="float: right;" ng-click="editRestaurant(restaurant._id);">Edit</button>
+						<button class="btn btn-danger" style="float: right;" ng-click="deleteRestaurant(restaurant._id)">Delete</button>
+					</div>
+					<div class="panel-body">
+
+						<h5>Table Available</h5>
+						<table class="table table-hover table-condensed table-bordered">
+							<tr>
+								<th>Table No.</th>
+								<th>Table Capacity</th>
+							</tr>
+							<tr ng-repeat="table in restaurant.tables">
+								<td>{{table.id}}</td>
+								<td>{{table.capacity}}</td>
+							</tr>
+						</table>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Add Restaurant Section -->
+	<div class="col-md-7">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h2> Add Restaurant </h2>
+			</div>
+			<div class="panel-body">
+				<table class="table table-bordered">
+					<tr>
+						<td>
+
+							Name:<input type="text" ng-model="restaurantInfo.name" /></td>
+						<td> Location:<input type="text" ng-model="restaurantInfo.address" /></td>
+						<td>Cuisine Offered:<input type="text" ng-model="restaurantInfo.cuisine" /></td>
+					</tr>
+				</table>
+
+				<!-- Add a table to the restaurant section -->
+				<table class="table">
+					<tr>
+						<td>
+							Table Number<input type="text" ng-model="name">
+						</td>
+						<td>
+							Table Capacity<input type="text" ng-model="capacity">
+						</td>
+						<td><button class="btn btn-primary" ng-click="addTable()">Add Table</button> </td>
+					</tr>
+					<tr>
+						<td colspan="2"> Tables Added
+							<ul>
+								<li style="list-style: none;">Number Capacity</li>
+								<li ng-repeat="t in tables" style="list-style: none;">{{t.id}} &nbsp; &nbsp; &nbsp; &nbsp; {{t.capacity}}
+								</li>
+							</ul>
+						</td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<td align="right" style="float:right;">
+							<button class="btn btn-success" ng-click="saveMessage = true; saveRestaurant(restaurantInfo)">Save</button>
+
+						</td>
+					</tr>
+
+				</table>
+				<div ng-if="saveMessage">Restaurant Added Successfully...!! </div>
+			</div>
+		</div>
+
+		<!-- Edit Restaurant Section -->
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h2>Edit {{particular[0].name}} Restaurant</h2>
+				<h4>Location: {{particular[0].address}}<br/> Cuisine Offered: {{particular[0].cuisine}}
+				</h4>
+			</div>
+			<div class="panel-body">
+				<table class="table ">
+					<tr>
+						<td colspan="2">
+							<b>{{particular[0].name}}'s</b> Capacity Currently
+						</td>
+					</tr>
+					<tr>
+						<th>Table Number</th>
+						<th>Table Capacity</th>
+					</tr>
+					<tr ng-repeat="table in particular[0].tables">
+						<td>{{table.id}}</td>
+						<td><input type="text" value="{{table.capacity}}" id="{{table.id}}" />
+							<button class="btn btn-warning" ng-click="changeTable(table.id)">Change</button>
+							<button class="btn btn-danger" ng-click="deleteTable(table.id)">Delete</button>
+						</td>
+					</tr>
+				</table>
+
+				<!-- Add a table to the current Restaurant Section-->
+				<table class="table">
+					<tr>
+						<td>
+							Table Number<input type="text" ng-model="nameEdit">
+						</td>
+						<td>
+							Table Capacity<input type="text" ng-model="capacityEdit">
+						</td>
+						<td><button class="btn btn-primary" ng-click="addTable('edit')">Add Table</button> </td>
+					</tr>
+					<tr>
+						<td colspan="2"> Tables Added
+							<ul>
+								<li style="list-style: none;">Number Capacity</li>
+								<li ng-repeat="t in tables" style="list-style: none;">{{t.id}} &nbsp; &nbsp; &nbsp; &nbsp; {{t.capacity}}
+								</li>
+							</ul>
+						</td>
+					</tr>
+				</table>
+
+				<!-- Save modified details section-->
+				<table>
+					<tr>
+						<td align="right" style="float:right;">
+							<button class="btn btn-success" ng-click="saveTable(particular[0]._id); editData=!editData;">Save</button>
+
+						</td>
+					</tr>
+
+				</table>
+
+			</div>
+
+		</div>
+	</div>
+</div>

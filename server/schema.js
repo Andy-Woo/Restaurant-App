@@ -4,36 +4,46 @@
 var constants = require('./constants')
 
 // db dependencies
-var db = require('mysql-promise')()
+let MongoClient = require('mongodb').MongoClient
+let url = constants.DB_URL
 
-db.configure({
-	"host": "localhost",
-	"user": "root",
-	"password": "root123",
-	"database": "student",
-	"multipleStatements": true
-})
+let insertDocument = (db, callback) => {
+	db.collection('restaurants').insertOne({
+		"address": "HSR layout",
 
-
-var schemaCreate = function () {
-	var sqlQuery = `DROP TABLE IF EXISTS searchedData;
-		CREATE table searchedData (
-		userId varchar(40) not null,
-		place varchar(255) not null,
-		latitude DECIMAL(10, 8) NOT NULL,
-		longitude DECIMAL(11, 8) NOT NULL,
-		UNIQUE KEY searchitem (userId, place, latitude, longitude)
-		) ENGINE=InnoDB AUTO_INCREMENT=1  CHARSET=utf8;
-
-		`
-	return new Promise((resolve, reject) => {
-		db.query(sqlQuery)
-			.then((success) => {
-				console.log('table created successfully')
-			})
-	}).catch((error) => {
-		console.log('unable to create table', error)
+		"cuisine": "Italian, North Indian, South Indian",
+		"tables": [
+			{
+				"id": 11,
+				"capacity": 4,
+				"booked": [
+					{
+						"bookedOn": new Date(),
+						"bookedBy": "Anijit"
+					}
+				]
+			},
+			{
+				"id": 12,
+				"capacity": 3
+			}
+		],
+		"name": "Spicy Kitchen"
+	}, (err, result) => {
+		console.log("Inserted a document into the restaurants collection.")
+		callback()
 	})
 }
+// initialize
+// insertDocument()
 
-schemaCreate()
+let callback = () => {
+	console.log('everything is fine..')
+}
+
+MongoClient.connect(constants.DB_URL, function(err, db) {
+  // assert.equal(null, err);
+  insertDocument(db, function() {
+      db.close();
+  });
+});

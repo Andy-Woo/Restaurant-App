@@ -1,37 +1,98 @@
 // do the query to the db
-
+var ObjectId = require('mongodb').ObjectID;
 var sendResponse = function (db, req, res) {
 
-	let columnNames = ''
-	let columnValues = ''
 
-	let body = req.body
-	let keys = Object.keys(body)
-
-	for (let i = 0; i < keys.length; i++) {
-		columnNames = columnNames + keys[i] + ','
-		columnValues = `${columnValues} '${body[keys[i]]}',`
-	}
-	columnNames = ` ( ${columnNames.replace(/,\s*$/, '')} ) `
-	columnValues = ` ( ${columnValues.replace(/,\s*$/, '')} ) `
-
-
-	let sqlQuery = `INSERT INTO searchedData ${columnNames} VALUES ${columnValues}
-		ON DUPLICATE KEY UPDATE userId = userId;
-		`
-
-	console.log('Query from query file: ', sqlQuery)
-	return new Promise((resolve, reject) => {
-		db.query(sqlQuery)
-			.then((data) => {
-				
-				// send the res
-				res.json('data inserted')
-			}, (error) => {
-				console.log(error)
-			})
-	})
 
 }
+var findRestaurants = function (req, res, db, callback) {
+	console.log('from query:', req.params)
 
-module.exports.sendResponse = sendResponse
+	var cursor = db.collection('restaurants').find()
+
+	// if id of a particular restaurant is given
+	if (req.params['_id']) {
+		cursor = db.collection('restaurants').find({ "_id": ObjectId(req.params['_id']) })
+	}
+
+	if (req.params['value']) {
+		var value = req.params['value']
+		cursor = db.collection('restaurants').find({
+			$or: [{ "cuisine": new RegExp(value, 'i') }, { "name": new RegExp(value, 'i') }, { "address": new RegExp(value, 'i') }]
+		})
+	}
+
+	// console.log('Cursor is now: ', cursor)
+	var docs = []
+	cursor.each(function (err, doc) {
+		// assert.equal(err, null);
+		if (doc != null) {
+			// add to list of docs
+			docs.push(doc)
+			// res.json(doc)
+		} else {
+			// console.log('results are:', docs)
+			res.json(docs)
+			callback()
+		}
+	})
+	console.log('results are:', docs)
+	// res.json(docs)
+}
+
+let insertDocument = (res, data, db, callback) => {
+	console.log('data from frontend: ', data)
+	db.collection('restaurants').insertOne(data, (err, result) => {
+		console.log("Inserted a document into the restaurants collection.")
+		res.json('table added successfully')
+		callback()
+	})
+}
+
+let removeRestaurant = function (id, res, db, callback) {
+	db.collection('restaurants').deleteOne(
+		{ "_id": ObjectId(id) },
+		function (err, results) {
+			//  console.log(results);
+			res.json('deleted successfully')
+			callback();
+		}
+	);
+};
+
+let updateRestaurant = function (id, data, res, db, callback) {
+	db.collection('restaurants').updateOne(
+		{ "_id": ObjectId(id) },
+		{
+			$set: { "tables": data }
+
+		}, function (err, results) {
+			res.json('table updated successfully')
+			callback();
+		});
+};
+
+
+let updateReview = function (id, data, res, db, callback) {
+	db.collection('restaurants').updateOne(
+		{ "_id": ObjectId(id) },
+		{
+			$set: { "reviews": data }
+
+		}, function (err, results) {
+			res.json('review updated successfully')
+			callback();
+		});
+}
+
+
+module.exports = {
+	sendResponse: sendResponse,
+	findRestaurants: findRestaurants,
+	insertDocument: insertDocument,
+
+	removeRestaurant: removeRestaurant,
+	updateRestaurant: updateRestaurant,
+
+	updateReview: updateReview
+}
