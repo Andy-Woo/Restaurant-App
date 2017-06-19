@@ -24,7 +24,7 @@ go to `localhost:3000/` and enjoy.
 <kbd>
 
 
-**Restaurant Screen** *to edit/ delete Restaurant*
+**Restaurant Screen** *to edit/ delete table capacity of an existing Restaurant*
 <kbd>
 <img src = "https://github.com/AnijitSau/Restaurant-App/blob/master/Screenshot%20(59).png" width="800px" alt="Restaurant Edit Page"/>
 <kbd>
