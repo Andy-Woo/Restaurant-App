@@ -4,9 +4,11 @@ A Simple Restaurant Reservation System using `Mongo DB`, `Express JS`, `Angular 
 
 
 ## Description
-When the app loads after going to `localhost:3000/` the default **Home Page** appears. It only tells you a brief overview of the app along with its *Navigation Structure*.    
-       <p> After clicking of the **Restaurant** tab the *Restaurant page* will open where *Onboarding of New Restaurant*  can be done using the *Add Restaurant* section. There a new Restaurant along with its *Name, Location, Cuisine offered* and *Capacity with table number* can be added. After adding the new restaurant it will appear at the *left panel* of the page along with other existing Restaurants. </p>   
-        From the *Left Panel* an existing restaurant can be *deleted/ modified to increase/ decrease its table Capacity.* After clicking the **Edit** button showing at the right side of the its name in the listing of restaurants the *Edit a Restaurant Section* will appear. Here *addition/ deletion of tables* and *modification of an existing table's capacity* can be done. 
+<p>When the app loads after going to `localhost:3000/` the default **Home Page** appears. It only tells you a brief overview of the app along with its *Navigation Structure*. </p>
+
+<p> After clicking of the **Restaurant** tab the *Restaurant page* will open where *Onboarding of New Restaurant*  can be done using the *Add Restaurant* section. There a new Restaurant along with its *Name, Location, Cuisine offered* and *Capacity with table number* can be added. After adding the new restaurant it will appear at the *left panel* of the page along with other existing Restaurants. </p>   
+
+<p> From the *Left Panel* an existing restaurant can be *deleted/ modified to increase/ decrease its table Capacity.* After clicking the **Edit** button showing at the right side of the its name in the listing of restaurants the *Edit a Restaurant Section* will appear. Here *addition/ deletion of tables* and *modification of an existing table's capacity* can be done. </p>
     
  
 
