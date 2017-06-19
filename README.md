@@ -10,3 +10,10 @@ use `npm install` to install all the necessary packages on which our app depends
 use `node index.js` after navigating to the `/server` folder
 
 go to `localhost:3000/` and enjoy.  
+
+
+## Screeshots
+**Home Screen**
+<kbd>
+<img src = "https://github.com/AnijitSau/Restaurant-App/blob/master/Screenshot%20(56).png" width="800px" alt="Home Page"/>
+<kbd>
