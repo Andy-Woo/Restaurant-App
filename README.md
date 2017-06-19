@@ -4,16 +4,23 @@ A Simple Restaurant Reservation System using `Mongo DB`, `Express JS`, `Angular 
 
 
 ## Description
-<p>When the app loads after going to `localhost:3000/` the default **Home Page** appears. It only tells you a brief overview of the app along with its *Navigation Structure*. </p>
+When the app loads after going to `localhost:3000/` the default **Home Page** appears. It only tells you a brief overview of the app along with its *Navigation Structure*. 
 
-<p> After clicking of the **Restaurant** tab the *Restaurant page* will open where *Onboarding of New Restaurant*  can be done using the *Add Restaurant* section. There a new Restaurant along with its *Name, Location, Cuisine offered* and *Capacity with table number* can be added. After adding the new restaurant it will appear at the *left panel* of the page along with other existing Restaurants. </p>   
+After clicking of the **Restaurant** tab the *Restaurant page* will open where *Onboarding of New Restaurant*  can be done using the *Add Restaurant* section. There a new Restaurant along with its *Name, Location, Cuisine offered* and *Capacity with table number* can be added. After adding the new restaurant it will appear at the *left panel* of the page along with other existing Restaurants.    
 
-<p> From the *Left Panel* an existing restaurant can be *deleted/ modified to increase/ decrease its table Capacity.* After clicking the **Edit** button showing at the right side of the its name in the listing of restaurants the *Edit a Restaurant Section* will appear. Here *addition/ deletion of tables* and *modification of an existing table's capacity* can be done. </p>
-    
+From the *Left Panel* an existing restaurant can be *deleted/ modified to increase/ decrease its table Capacity.* After clicking the **Edit** button showing at the right side of the its name in the listing of restaurants the *Edit a Restaurant Section* will appear. Here *addition/ deletion of tables* and *modification of an existing table's capacity* can be done. 
+
+When the **Reservation** tabb is clicked the *Reservation Section* of the Application opens up. Here All the restaurants acan be searched using their *Name/ Location they at situated at* or *by the Cuisine they offered*. After searching the Restaurants which matches the *search criteria* appears at the *left side* of the page where *Reviews* of the corresponding restaurant can be seen along with the **Review** and **Book** buttons.
+
+*Booking* to an existing Restaurant can be done after clicking the **Book** button. Here *add/ cancel booking* can be done. List of all *existing bookings* are ashown when the **Book** button is clicked.
+
+*Giving Reviews* to an particular Restaurant is a very crucial thing of this Application. Beacuse people will check reviews before book for a *dinner/ lunch* to a Particular restaurant. So the reviews can be given after the **Review** button is clicked. Here user can put their *name* along with *their reviews*. Reviews will be *updated / reflected* only after clicking the **Save** button present in the *Reviews Section* of the page. 
  
 
 ## Install
 use `npm install` to install all the necessary packages on which our app depends on
+
+run `node schema.js` to create the initial schema and populate it with a *sample record*
 
 use `node index.js` after navigating to the `/server` folder
 
